@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            background: #fff0f5; 
+            color: #ff66b2; 
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Comic Sans MS', cursive, sans-serif; 
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Навигационная панель наверху */
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            width: 100%;
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10; /* Чтобы всегда была поверх текста */
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.5);
+            color: #ff69b4;
+            border: 2px solid #ffb6c1;
+            border-radius: 10px;
+            padding: 8px 15px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+        }
+        .nav-btn:active {
+            background: #ffb6c1;
+            color: #fff;
+        }
+
+        /* Контейнеры для экранов */
+        .screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            padding-top: 50px; /* Отступ под навигацию */
+            box-sizing: border-box;
+        }
+
+        #screen-result {
+            display: none; /* Второй экран скрыт по умолчанию */
+        }
+
+        /* Основные гламурные кнопки */
+        .btn {
+            padding: 15px 30px;
+            margin: 10px;
+            background: #ffb6c1; 
+            color: #fff;
+            border: 2px solid #ff69b4; 
+            border-radius: 20px; 
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 85%;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(255, 105, 180, 0.3);
+        }
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .huge-text {
+            font-size: 4rem;
+            color: #ff1493; 
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 0 0 15px #ffb6c1;
+            animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); 
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.1) rotate(-10deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav-bar">
+        <button class="nav-btn" onclick="goBack()">⬅ Назад</button>
+        <button class="nav-btn" onclick="tg.close()">Выход 🚪</button>
+    </div>
+
+    <div id="screen-buttons" class="screen">
+        <h2 style="margin-bottom: 20px; color: #ff69b4; text-align: center;">Выбирай с умом: 🌸</h2>
+        <button class="btn" onclick="showResult()">Никита лох</button>
+        <button class="btn" onclick="showResult()">Никита лох</button>
+        <button class="btn" onclick="showResult()">Никита лох</button>
+        <button class="btn" onclick="showResult()">Хочешь защеканчик? 🍌</button>
+    </div>
+
+    <div id="screen-result" class="screen">
+        <div class="huge-text">Никита<br>лох 💖</div>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        // Показать финальный экран
+        function showResult() {
+            document.getElementById('screen-buttons').style.display = 'none';
+            document.getElementById('screen-result').style.display = 'flex';
+            
+            tg.MainButton.setText("ПОНЯТНО 💅");
+            tg.MainButton.color = "#ff69b4";
+            tg.MainButton.textColor = "#ffffff";
+            tg.MainButton.show();
+        }
+
+        // Вернуться назад на первый экран
+        function goBack() {
+            document.getElementById('screen-result').style.display = 'none';
+            document.getElementById('screen-buttons').style.display = 'flex';
+            
+            // Прячем нижнюю кнопку Telegram при возврате
+            tg.MainButton.hide();
+        }
+
+        // Закрытие при нажатии на системную кнопку Telegram
+        tg.MainButton.onClick(function() {
+            tg.close();
+        });
+    </script>
+</body>
+</html>
